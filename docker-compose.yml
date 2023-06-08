@@ -1,0 +1,29 @@
+version: '2'
+
+networks:
+  skynet:
+
+services:
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    networks:
+      - skynet
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=temperature_db
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin_password
+      - INFLUXDB_TOKEN=WkoTClqWxUZ_zCoUn3RZsMNVehVG8MeYFy_R9yaBUEbwmxgAxvJVdIkMdHJhVmXqoJ6jJxWAJXoA3sPWgMPxKQ==
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    networks:
+      - skynet
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin_password
