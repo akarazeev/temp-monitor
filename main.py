@@ -4,7 +4,8 @@ from influxdb_client import Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 # token = os.environ.get("INFLUXDB_TOKEN")
-token = "WkoTClqWxUZ_zCoUn3RZsMNVehVG8MeYFy_R9yaBUEbwmxgAxvJVdIkMdHJhVmXqoJ6jJxWAJXoA3sPWgMPxKQ=="
+# token = "WkoTClqWxUZ_zCoUn3RZsMNVehVG8MeYFy_R9yaBUEbwmxgAxvJVdIkMdHJhVmXqoJ6jJxWAJXoA3sPWgMPxKQ=="
+token = "4hU5PecOk-P1exVuYssI9IOcsnUfT-j6K7aQ7rlmj4MnDRP-g6Qwydo7jlqHlCZfvCk8Fk3s5vTAj0_s8NzHGw=="
 org = "temp-monitor-org"
 url = "http://localhost:8086"
 
@@ -21,7 +22,7 @@ for _ in range(5):
     point = (
         Point("measurement")
         .tag("source", "random")
-        .field("float_temperature", val)
+        .field("temperature", val)
     )
     write_api.write(bucket=bucket, org="temp-monitor-org", record=point)
     print(point)
