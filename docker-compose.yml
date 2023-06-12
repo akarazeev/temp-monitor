@@ -14,7 +14,7 @@ services:
     environment:
       - INFLUXDB_DB=temperature_db
       - INFLUXDB_ADMIN_USER=admin
-      - INFLUXDB_ADMIN_PASSWORD=admin_password
+      - INFLUXDB_ADMIN_PASSWORD=admin
       - INFLUXDB_TOKEN=WkoTClqWxUZ_zCoUn3RZsMNVehVG8MeYFy_R9yaBUEbwmxgAxvJVdIkMdHJhVmXqoJ6jJxWAJXoA3sPWgMPxKQ==
 
   grafana:
@@ -28,4 +28,4 @@ services:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin_password
+      - GF_SECURITY_ADMIN_PASSWORD=admin
