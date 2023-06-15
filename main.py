@@ -2,6 +2,10 @@ import os, time, random
 import influxdb_client
 from influxdb_client import Point
 from influxdb_client.client.write_api import SYNCHRONOUS
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 try:
     from gpiozero import CPUTemperature
@@ -10,33 +14,24 @@ try:
 except:
     is_rpi = False
 
-# token = os.environ.get("INFLUXDB_TOKEN")
-token = "BnqYzKHq2CrCr98b9EknZUTMkytqaK_5SmRRft-ulKBdLezPRANHkBUgKiUGi7DShGJxs9vu4r9xEaWy590Kdw=="
-
-org = "temp-monitor-org"
-url = "http://localhost:8086"
+bucket = os.environ.get("INFLUXDB_BUCKET")
+org = os.environ.get("INFLUXDB_ORG")
+token = os.environ.get("INFLUXDB_TOKEN")
+url = "http://influxdb:8086"
 influx_client = influxdb_client.InfluxDBClient(url=url, token=token, org=org)
 
-
-bucket = "temp-monitor-bucket"
 write_api = influx_client.write_api(write_options=SYNCHRONOUS)
 
-# for _ in range(5):
-try:
-    while True:
-        if is_rpi:
-            val = cpu.temperature
-        else:
-            val = random.random()
-            val = float(f"{val:.2}")
-
-        point = (
-            Point("measurement")
-            .tag("source", "random")
-            .field("temperature", val)
-        )
-        write_api.write(bucket=bucket, org=org, record=point)
-        print(point)
-        time.sleep(1)  # separate points by 1 second
-except:
-    exit(1)
+while True:
+    if is_rpi:
+        val = cpu.temperature
+    else:
+        val = float(f"{random.random():.2}")
+    point = (
+        Point("measurement")
+        .tag("source", "cpu")
+        .field("temperature", val)
+    )
+    logger.info(f"{point}")
+    write_api.write(bucket=bucket, org=org, record=point)
+    time.sleep(1)
