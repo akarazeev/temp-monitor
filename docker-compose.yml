@@ -49,6 +49,8 @@ services:
   monitor:
     image: monitor
     container_name: monitor
+    devices:
+      - /dev/gpiomem:/dev/gpiomem
     build: .
     restart: on-failure
     networks:
@@ -62,3 +64,4 @@ services:
       INFLUXDB_TOKEN: WkoTClqWxUZ_zCoUn3RZsMNVehVG8MeYFy_R9yaBUEbwmxgAxvJVdIkMdHJhVmXqoJ6jJxWAJXoA3sPWgMPxKQ==
       INFLUXDB_BUCKET: temp-monitor-bucket
       INFLUXDB_ORG: temp-monitor-org
+
