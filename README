@@ -1,4 +1,0 @@
-To run outside of docker-compose:
-```
-docker run --network=host -e INFLUXDB_TOKEN=<token> temp-monitor
-```
